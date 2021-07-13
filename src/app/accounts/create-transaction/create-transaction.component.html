@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-6">
+    <form [formGroup]="transactionForm" (ngSubmit)="save()">
+      <div class="mb-3">
+        <label class="form-label">Transaction Amount</label>
+        <input type="text" class="form-control" formControlName="amount" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Transaction Type</label>
+        <select class="form-control" formControlName="txnType">
+          <option value="">Select Type</option>
+          <option value="Dr">Debit</option>
+          <option value="Cr">Credit</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Create Transaction</button>
+      <a class="btn btn-light ms-2" routerLink="/accounts">Back</a>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div *ngIf="account; else noRecords">
+  <div class="row justify-content-between">
+    <div class="col">
+      <h4>Transactions for Account ({{ account.accountNumber }})</h4>
+    </div>
+    <div class="col-4 text-right">
+      <a
+        class="btn btn-primary me-2"
+        [routerLink]="['/accounts', account.id, 'transactions', 'create']"
+        >Create new Transaction</a
+      >
+      <a class="btn btn-light" routerLink="/accounts">Back</a>
+    </div>
+  </div>
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Transaction Number</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Transaction Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of transactions">
+        <th scope="row">{{ transaction.id }}</th>
+        <td>{{ transaction.txnNumber }}</td>
+        <td>{{ transaction.amount }}</td>
+        <td>{{ transaction.txnType }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noRecords>
+  <div class="row">
+    <div class="col">
+      <h4>Loading....</h4>
+    </div>
+  </div>
+</ng-template>

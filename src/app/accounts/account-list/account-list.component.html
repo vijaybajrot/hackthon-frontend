@@ -1,0 +1,36 @@
+<div class="row justify-content-between">
+  <div class="col">
+    <h4>Accounts</h4>
+  </div>
+  <div class="col-2 text-right">
+    <a class="btn btn-primary" routerLink="/accounts/create"
+      >Create new Account</a
+    >
+  </div>
+</div>
+<table class="table mt-4">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Account Number</th>
+      <th scope="col">Account Holder</th>
+      <th scope="col">Description</th>
+      <th scope="col">&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let account of accounts">
+      <th scope="row">{{ account.id }}</th>
+      <td>{{ account.accountNumber }}</td>
+      <td>{{ account.accountName }}</td>
+      <td>{{ account.description }}</td>
+      <td>
+        <a
+          class="btn btn-secondary"
+          [routerLink]="['/accounts', account.id, 'transactions']"
+          >View Transactions</a
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>
