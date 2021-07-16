@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SyncService } from 'src/app/sync.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,13 @@ import { SyncService } from 'src/app/sync.service';
 })
 export class HeaderComponent implements OnInit {
   syncing: boolean = false;
-  constructor(private syncService: SyncService, private router: Router) {}
+  constructor(
+    private syncService: SyncService,
+    private router: Router,
+    private location: Location
+  ) {}
 
-  ngOnInit(): void {
-    console.log('header mount');
-  }
+  ngOnInit(): void {}
 
   sync() {
     this.syncing = true;
@@ -24,8 +27,7 @@ export class HeaderComponent implements OnInit {
         console.log(data);
         if (data.message && data.message == 'success') {
           window.alert('Sync was successfull');
-          const currentUrl = this.router.url;
-          this.router.navigate([currentUrl], {replaceUrl: true});
+          this.relaod();
         }
       },
       (error: HttpErrorResponse) => {
@@ -34,5 +36,13 @@ export class HeaderComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  relaod() {
+    this.router
+      .navigateByUrl('/_reload', { skipLocationChange: true })
+      .then(() => {
+        this.router.navigate([decodeURI(this.location.path())]);
+      });
   }
 }

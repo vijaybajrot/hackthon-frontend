@@ -11,6 +11,7 @@ import { AccountCreateComponent } from './accounts/account-create/account-create
 import { AccountListComponent } from './accounts/account-list/account-list.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { CreateTransactionComponent } from './accounts/create-transaction/create-transaction.component';
+import { ReloadComponent } from './reload/reload.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { CreateTransactionComponent } from './accounts/create-transaction/create
     AccountCreateComponent,
     AccountTransactionsComponent,
     CreateTransactionComponent,
+    ReloadComponent,
   ],
   imports: [
     BrowserModule,

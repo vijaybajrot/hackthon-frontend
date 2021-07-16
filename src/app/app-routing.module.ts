@@ -4,12 +4,17 @@ import { AccountCreateComponent } from './accounts/account-create/account-create
 import { AccountListComponent } from './accounts/account-list/account-list.component';
 import { AccountTransactionsComponent } from './accounts/account-transactions/account-transactions.component';
 import { CreateTransactionComponent } from './accounts/create-transaction/create-transaction.component';
+import { ReloadComponent } from './reload/reload.component';
 
 const routes: Routes = [
   {
     path:'',
     redirectTo: 'accounts',
     pathMatch:'full'
+  },
+  {
+    path: '_reload',
+    component: ReloadComponent
   },
   {
     path:'accounts',
