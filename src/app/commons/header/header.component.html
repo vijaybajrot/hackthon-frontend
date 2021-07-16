@@ -2,5 +2,13 @@
 <nav class="navbar navbar-light bg-light">
   <div class="container">
     <span class="navbar-brand mb-0 h1">Hackthon Project</span>
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="sync()"
+      [disabled]="syncing"
+    >
+      {{ syncing ? "Syncing..." : "Sync" }}
+    </button>
   </div>
 </nav>

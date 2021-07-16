@@ -2,22 +2,43 @@
   <div class="col-6">
     <form [formGroup]="accountForm" (ngSubmit)="saveAccount()">
       <div class="mb-3">
+        <h5 class="form-text text-danger" *ngIf="errors.length > 0">
+          Error in {{errors[0].field}} : {{errors[0].message}}
+        </h5>
+      </div>
+      
+      <div class="mb-3">
         <label class="form-label">Account Number</label>
-        <input type="text" class="form-control" formControlName="accountNumber" />
-        <div class="form-text">
-          Example: ACC0001
+        <input
+          type="text"
+          class="form-control"
+          formControlName="accountNumber"
+        />
+        <div class="form-text text-danger" *ngIf="hasError('accountNumber')">
+          Account number is not vaild.
         </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Account Holder Name</label>
         <input type="text" class="form-control" formControlName="accountName" />
-       
+        <div class="form-text text-danger" *ngIf="hasError('accountName')">
+          Account name is not vaild.
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label">Account Description</label>
         <input type="text" class="form-control" formControlName="description" />
+        <div class="form-text text-danger" *ngIf="hasError('description')">
+          Account description is not vaild.
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">Create Account</button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!accountForm.valid"
+      >
+        Create Account
+      </button>
       <a class="btn btn-light ms-2" routerLink="/accounts">Back</a>
     </form>
   </div>

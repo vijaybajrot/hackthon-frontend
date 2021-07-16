@@ -1,5 +1,6 @@
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 
@@ -10,9 +11,13 @@ import { AccountService } from '../account.service';
 })
 export class CreateTransactionComponent implements OnInit {
   accountId!: number;
+  errors: Array<{ field: string; message: string }> = [];
   transactionForm: FormGroup = new FormGroup({
-    amount: new FormControl(),
-    txnType: new FormControl(''),
+    amount: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(/^[0-9]+$/),
+    ]),
+    txnType: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -27,6 +32,13 @@ export class CreateTransactionComponent implements OnInit {
     });
   }
 
+  hasError(fieldName: string) {
+    const field = this.transactionForm.get(fieldName) as FormControl;
+    if (!field) return false;
+
+    return field.touched && !field.valid;
+  }
+
   save() {
     const { amount, txnType } = this.transactionForm.value;
     if (!amount || !txnType) {
@@ -35,10 +47,23 @@ export class CreateTransactionComponent implements OnInit {
 
     this.accountService
       .createTransaction(this.accountId, { amount, txnType })
-      .subscribe((transation) => {
-        console.log(transation);
-        window.alert(`Transation Created, Txn Number: ${transation.txnNumber}`);
-        this.router.navigate(['../'], { relativeTo: this.activeRoute });
-      });
+      .subscribe(
+        (transation) => {
+          console.log(transation);
+          window.alert(
+            `Transation Created, Txn Number: ${transation.txnNumber}`
+          );
+          this.router.navigate(['../'], { relativeTo: this.activeRoute });
+        },
+        (error: HttpErrorResponse) => {
+          this.transactionForm.reset();
+          if (error.status === HttpStatusCode.BadRequest) {
+            return window.alert('Unable to create transation');
+          }
+          if (error.status === HttpStatusCode.UnprocessableEntity) {
+            this.errors = error.error?.errors;
+          }
+        }
+      );
   }
 }
